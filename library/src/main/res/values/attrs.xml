@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RippleCheckBox">
+        <attr name="rcbCenterCircleRadius"      format="dimension" />
+        <attr name="rcbCenterCircleStrokeWidth" format="dimension" />
+        <attr name="rcbCenterCircleColor"       format="color"     />
+
+
+        <attr name="rcbRightStrokeWidth"        format="dimension" />
+        <attr name="rcbRightColor"              format="color"     />
+        <attr name="rcbRightDuration"           format="integer"   />
+
+        <attr name="rcbRightStartDegree"        format="integer"   />
+        <attr name="rcbRightCenterDegree"       format="integer"   />
+        <attr name="rcbRightEndDegree"          format="integer"   />
+        <attr name="rcbRightCorner"             format="dimension" />
+
+
+        <attr name="rcbRippleStrokeWidth"       format="dimension" />
+        <attr name="rcbRippleColor"             format="color"     />
+        <attr name="rcbRippleMargin"            format="dimension" />
+        <attr name="rcbRippleDuration"          format="integer"   />
+
+    </declare-styleable>
+</resources>

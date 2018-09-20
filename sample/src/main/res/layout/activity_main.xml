@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.xujiaji.library.RippleCheckBox
+                android:id="@+id/rippleCheckBox"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginStart="80dp"
+                android:text="Todo Task"
+                android:textColor="#0f0f0f"
+                app:layout_constraintBottom_toBottomOf="@id/rippleCheckBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/rippleCheckBox" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="12dp"
+                android:background="#d7d7d7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.xujiaji.library.RippleCheckBox
+                android:id="@+id/rippleCheckBox2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:rcbRightColor="@color/colorPrimary"
+                app:rcbRightStrokeWidth="2dp"
+                app:rcbCenterCircleRadius="12dp"
+                app:rcbCenterCircleColor="@color/colorPrimary"
+                app:rcbRippleColor="@color/colorPrimaryDark"
+                app:rcbRippleStrokeWidth="3dp"/>
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginStart="80dp"
+                android:text="Todo Task"
+                android:textColor="#0f0f0f"
+                app:layout_constraintBottom_toBottomOf="@id/rippleCheckBox2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/rippleCheckBox2" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="12dp"
+                android:background="#d7d7d7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView2" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/change_ripplecheckbox" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/center_circle_radius" />
+
+            <SeekBar
+                android:id="@+id/seekBarCenterRadius"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/center_circle_stoke_width" />
+
+            <SeekBar
+                android:id="@+id/seekBarCenterStrokeWidth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/center_circle_color" />
+
+            <SeekBar
+                android:id="@+id/seekBarCenterColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/checked_right_stroke_width" />
+
+            <SeekBar
+                android:id="@+id/seekBarRightStrokeWidth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/checked_right_color" />
+
+            <SeekBar
+                android:id="@+id/seekBarRightColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/ripple_stroke_width" />
+
+            <SeekBar
+                android:id="@+id/seekBarRippleStrokeWidth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/ripple_color" />
+
+            <SeekBar
+                android:id="@+id/seekBarRippleColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/ripple_margin" />
+
+            <SeekBar
+                android:id="@+id/seekBarRippleMargin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/ripple_speed" />
+
+            <SeekBar
+                android:id="@+id/seekBarRippleSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/right_speed" />
+
+            <SeekBar
+                android:id="@+id/seekBarRightSpeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/right_start" />
+
+            <SeekBar
+                android:id="@+id/seekBarRightStartDegree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/right_center" />
+
+            <SeekBar
+                android:id="@+id/seekBarRightCenterDegree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/right_end" />
+
+            <SeekBar
+                android:id="@+id/seekBarRightEndDegree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/right_corner" />
+
+            <SeekBar
+                android:id="@+id/seekBarRightCorner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/text"
+                android:text="@string/default_ripplecheckbox" />
+
+            <com.xujiaji.library.RippleCheckBox
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</ScrollView>

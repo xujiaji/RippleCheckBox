@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">RippleCheckBox</string>
+    <string name="center_circle_radius">中心圆半径：</string>
+    <string name="center_circle_stoke_width">中心圆粗细：</string>
+    <string name="center_circle_color">中心圆颜色：</string>
+    <string name="checked_right_stroke_width">选中√粗细：</string>
+    <string name="checked_right_color">选中√颜色：</string>
+    <string name="ripple_stroke_width">波纹圆粗细：</string>
+    <string name="ripple_color">波纹圆颜色：</string>
+    <string name="ripple_speed">波纹扩散时长：</string>
+    <string name="right_speed">选中√的绘制时长：</string>
+    <string name="right_start">√的启始点：</string>
+    <string name="right_center">√的中间点：</string>
+    <string name="right_end">√的结束点：</string>
+    <string name="change_ripplecheckbox">调节第一个RippleCheckBox</string>
+    <string name="right_corner">√的拐角平滑度：</string>
+    <string name="default_ripplecheckbox">默认的RippleCheckBox</string>
+    <string name="ripple_margin">波纹外边距：</string>
+</resources>
