@@ -84,6 +84,7 @@ public class RippleCheckBox extends View implements Checkable {
 
 
         TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RippleCheckBox, defStyleAttr, 0);
+        final boolean isChecked           = t.getBoolean(             R.styleable.RippleCheckBox_rcbChecked,         false);
         final int centerCircleRadius      = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbCenterCircleRadius,      RippleCheckBoxUtil.dp2px(context, 10));
         final int centerCircleStrokeWidth = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbCenterCircleStrokeWidth, RippleCheckBoxUtil.dp2px(context, 1));
         final int centerCircleColor       = t.getColor(               R.styleable.RippleCheckBox_rcbCenterCircleColor,       Color.GRAY);
@@ -95,7 +96,7 @@ public class RippleCheckBox extends View implements Checkable {
         final int rippleStrokeWidth       = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRippleStrokeWidth,       RippleCheckBoxUtil.dp2px(context, 4));
         final int rippleColor             = t.getColor(               R.styleable.RippleCheckBox_rcbRippleColor,             Color.BLUE);
         final int rippleDuration          = t.getInteger(             R.styleable.RippleCheckBox_rcbRippleDuration,  200); // default ripple animal 200ms
-        final int rippleMargin            = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRippleMargin,            0);
+        final int rippleMargin            = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRippleMargin,    0);
 
         final int rightStartDegree        = t.getInteger(             R.styleable.RippleCheckBox_rcbRightStartDegree,        _360_right_degree_start);
         final int rightCenterDegree       = t.getInteger(             R.styleable.RippleCheckBox_rcbRightCenterDegree,       _360_right_degree_center);
@@ -103,40 +104,42 @@ public class RippleCheckBox extends View implements Checkable {
         final int rightRightCorner        = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRightCorner,             RippleCheckBoxUtil.dp2px(context, 2));
         t.recycle();
 
-        mCenterCircleRadius      = centerCircleRadius;
-        mDurationRight           = rightDuration;
-        mDurationRipple          = rippleDuration;
-        mRippleMargin            = rippleMargin;
+        this.isChecked                = isChecked;
+        this.mCenterCircleRadius      = centerCircleRadius;
+        this.mDurationRight           = rightDuration;
+        this.mDurationRipple          = rippleDuration;
+        this.mRippleMargin            = rippleMargin;
 
-        _360_right_degree_start  = rightStartDegree;
-        _360_right_degree_center = rightCenterDegree;
-        _360_right_degree_end    = rightEndDegree;
+        this._360_right_degree_start  = rightStartDegree;
+        this._360_right_degree_center = rightCenterDegree;
+        this._360_right_degree_end    = rightEndDegree;
+
+        mRightPath         = new Path();
+        mRightPathDst      = new Path();
+        mCenterCirclePath  = new Path();
 
         mCenterCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG);
+        mRipplePaint       = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG);
+        mRightPaint        = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG);
+
         mCenterCirclePaint.setStrokeWidth(centerCircleStrokeWidth);
         mCenterCirclePaint.setColor(centerCircleColor);
         mCenterCirclePaint.setStyle(Paint.Style.STROKE);
 
-        mRipplePaint = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG);
         mRipplePaint.setStrokeWidth(rippleStrokeWidth);
         mRipplePaint.setColor(rippleColor);
         mRipplePaint.setStyle(Paint.Style.STROKE);
 
-        mRightPaint = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG);
         mRightPaint.setPathEffect(new CornerPathEffect(mRightCorner = rightRightCorner));
         mRightPaint.setStrokeWidth(rightStrokeWidth);
         mRightPaint.setColor(rightColor);
         mRightPaint.setStrokeCap(Paint.Cap.ROUND);
         mRightPaint.setStyle(Paint.Style.STROKE);
 
-        mRightPath = new Path();
-        mRightPathDst = new Path();
-        mCenterCirclePath = new Path();
-
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                setChecked(!isChecked, true);
+                setChecked(!RippleCheckBox.this.isChecked, true);
             }
         });
     }

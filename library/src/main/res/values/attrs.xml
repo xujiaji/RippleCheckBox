@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RippleCheckBox">
+        <attr name="rcbChecked"                 format="boolean"/>
+
         <attr name="rcbCenterCircleRadius"      format="dimension" />
         <attr name="rcbCenterCircleStrokeWidth" format="dimension" />
         <attr name="rcbCenterCircleColor"       format="color"     />

@@ -60,6 +60,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:rcbRightColor="@color/colorPrimary"
+                app:rcbChecked="true"
                 app:rcbRightStrokeWidth="2dp"
                 app:rcbCenterCircleRadius="12dp"
                 app:rcbCenterCircleColor="@color/colorPrimary"
