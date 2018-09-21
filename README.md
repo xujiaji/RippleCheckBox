@@ -1,3 +1,5 @@
+[![Version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://bintray.com/xujiaji/maven/ripple-checkbox) 
+
 # RippleCheckBox
 简洁，舒服，波纹动画，勾选动画，高度可控的波纹CheckBox
 
@@ -7,9 +9,16 @@
 
 > 详细使用文档空闲在写啦！看案例吧，所有功能在案例中都有体现！
 
+## Screenshot
+
 ![](https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/RippleCheckBox/RippleCheckBox.gif)
 
 > [下载Apk体验](https://github.com/xujiaji/RippleCheckBox/releases/tag/v1.0)
+
+## Dependencies
+```
+implementation 'com.github.xujiaji:ripple-checkbox:0.0.1'
+```
 
 # License
 ```

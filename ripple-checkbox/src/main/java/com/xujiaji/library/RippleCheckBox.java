@@ -15,9 +15,6 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntRange;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -75,11 +72,11 @@ public class RippleCheckBox extends View implements Checkable {
         this(context, null);
     }
 
-    public RippleCheckBox(Context context, @Nullable AttributeSet attrs) {
+    public RippleCheckBox(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RippleCheckBox(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RippleCheckBox(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
 
@@ -361,7 +358,7 @@ public class RippleCheckBox extends View implements Checkable {
         mCenterCirclePaint.setStrokeWidth(value);
     }
 
-    public void setCenterCircleColor(@ColorInt int color) {
+    public void setCenterCircleColor(int color) {
         mCenterCirclePaint.setColor(color);
     }
 
@@ -374,7 +371,7 @@ public class RippleCheckBox extends View implements Checkable {
         mRightPaint.setStrokeWidth(value);
     }
 
-    public void setRightColor(@ColorInt int color) {
+    public void setRightColor(int color) {
         mRightPaint.setColor(color);
     }
 
@@ -387,7 +384,7 @@ public class RippleCheckBox extends View implements Checkable {
         mRipplePaint.setStrokeWidth(value);
     }
 
-    public void setRippleColor(@ColorInt int color) {
+    public void setRippleColor(int color) {
         mRipplePaint.setColor(color);
     }
 
@@ -417,7 +414,11 @@ public class RippleCheckBox extends View implements Checkable {
         return _360_right_degree_start;
     }
 
-    public void setRightStartDegree(@IntRange(from = 0, to = 360) int degree) {
+    /**
+     *
+     * @param degree range: from 0, to 360
+     */
+    public void setRightStartDegree(int degree) {
         if (degree < 0 || degree > 360) return;
         _360_right_degree_start = degree;
     }
@@ -426,7 +427,11 @@ public class RippleCheckBox extends View implements Checkable {
         return _360_right_degree_center;
     }
 
-    public void setRightCenterDegree(@IntRange(from = 0, to = 360) int degree) {
+    /**
+     *
+     * @param degree range: from 0, to 360
+     */
+    public void setRightCenterDegree(int degree) {
         if (degree < 0 || degree > 360) return;
         _360_right_degree_center = degree;
     }
@@ -435,7 +440,11 @@ public class RippleCheckBox extends View implements Checkable {
         return _360_right_degree_end;
     }
 
-    public void setRightEndDegree(@IntRange(from = 0, to = 360) int degree) {
+    /**
+     *
+     * @param degree range: from 0, to 360
+     */
+    public void setRightEndDegree(int degree) {
         if (degree < 0 || degree > 360) return;
         _360_right_degree_end = degree;
     }

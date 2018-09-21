@@ -8,6 +8,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -19,9 +22,36 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url  "https://dl.bintray.com/xujiaji/maven"
+        }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'ripple-checkbox'
+
+    publishedGroupId = 'com.github.xujiaji'
+    libraryName = 'ripple-checkbox'
+    artifact = 'ripple-checkbox'
+
+    libraryDescription = 'Simple, comfortable, ripple animation, check animation, highly controllable ripple CheckBox'
+
+    siteUrl = 'https://github.com/xujiaji/RippleCheckBox'
+    gitUrl = 'https://github.com/xujiaji/RippleCheckBox.git'
+
+    libraryVersion = '0.0.1'
+
+    developerId = 'xujiaji'
+    developerName = 'xujiaji'
+    developerEmail = 'jiajixu@qq.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
