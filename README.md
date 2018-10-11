@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.0.1-green.svg)](https://bintray.com/xujiaji/maven/ripple-checkbox) 
+[![Version](https://img.shields.io/badge/version-0.0.2-green.svg)](https://bintray.com/xujiaji/maven/ripple-checkbox) 
 
 # RippleCheckBox
 简洁，舒服，波纹动画，勾选动画，高度可控的波纹CheckBox
@@ -17,7 +17,7 @@
 
 ## Dependencies
 ```
-implementation 'com.github.xujiaji:ripple-checkbox:0.0.1'
+implementation 'com.github.xujiaji:ripple-checkbox:0.0.2'
 ```
 
 # License

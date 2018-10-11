@@ -45,7 +45,7 @@ ext {
     siteUrl = 'https://github.com/xujiaji/RippleCheckBox'
     gitUrl = 'https://github.com/xujiaji/RippleCheckBox.git'
 
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.2'
 
     developerId = 'xujiaji'
     developerName = 'xujiaji'

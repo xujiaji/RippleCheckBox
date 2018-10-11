@@ -324,9 +324,6 @@ public class RippleCheckBox extends View implements Checkable {
     @Override
     public void setChecked(boolean checked) {
         isChecked = checked;
-        if (mListener != null) {
-            mListener.onCheckedChanged(this, isChecked);
-        }
         invalidate();
     }
 
