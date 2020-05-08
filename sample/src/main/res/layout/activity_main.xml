@@ -16,7 +16,8 @@
         <com.xujiaji.library.RippleCheckBox
             android:id="@+id/rippleCheckBox"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            app:rcbDeleteScale="0.8"/>
 
 
         <TextView
