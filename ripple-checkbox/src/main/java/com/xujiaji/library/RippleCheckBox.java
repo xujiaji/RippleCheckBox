@@ -84,7 +84,9 @@ public class RippleCheckBox extends View implements Checkable {
 
     private int mRippleMargin;
 
-    private float mDeleteScale = 1; // 删除占比
+    private float mDeleteScale; // 删除占比
+
+    private boolean enableDeleteMode; // 是否启动删除模式
 
     public RippleCheckBox(Context context) {
         this(context, null);
@@ -112,7 +114,8 @@ public class RippleCheckBox extends View implements Checkable {
         final int deleteColor             = t.getColor(               R.styleable.RippleCheckBox_rcbDeleteColor,              Color.BLUE);
         final int deleteDuration          = t.getInteger(             R.styleable.RippleCheckBox_rcbDeleteDuration,   600); // default delete animal 400ms
         final int deleteRightCorner       = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbDeleteCorner,             RippleCheckBoxUtil.dp2px(context, 2));
-        final float deleteScale           = t.getFloat(R.styleable.RippleCheckBox_rcbDeleteScale,                     1);
+        final float deleteScale           = t.getFloat(               R.styleable.RippleCheckBox_rcbDeleteScale,                     1);
+        final boolean deleteEnable        = t.getBoolean(             R.styleable.RippleCheckBox_rcbDeleteEnable,                     false);
 
         final int rippleStrokeWidth       = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRippleStrokeWidth,       RippleCheckBoxUtil.dp2px(context, 4));
         final int rippleColor             = t.getColor(               R.styleable.RippleCheckBox_rcbRippleColor,             Color.BLUE);
@@ -125,6 +128,7 @@ public class RippleCheckBox extends View implements Checkable {
         final int rightRightCorner        = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRightCorner,             RippleCheckBoxUtil.dp2px(context, 2));
         t.recycle();
 
+        this.enableDeleteMode         = deleteEnable;
         this.mDeleteScale             = deleteScale;
         this.isChecked                = isChecked;
         this.mCenterCircleRadius      = centerCircleRadius;
@@ -654,6 +658,14 @@ public class RippleCheckBox extends View implements Checkable {
     public void setRightEndDegree(int degree) {
         if (degree < 0 || degree > 360) return;
         _360_right_degree_end = degree;
+    }
+
+    public boolean isEnableDeleteMode() {
+        return enableDeleteMode;
+    }
+
+    public void setEnableDeleteMode(boolean enableDeleteMode) {
+        this.enableDeleteMode = enableDeleteMode;
     }
 
     public int getRightCorner() {
