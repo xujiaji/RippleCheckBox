@@ -19,15 +19,57 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.Checkable;
 
 /**
  * author: xujiaji
  * created on: 2018/9/20 11:05
  * description:
  */
-public class RippleCheckBox extends View implements Checkable {
+public class RippleCheckBox extends View  {
     private static final String KEY_INSTANCE_STATE = "InstanceState";
+
+    public enum Status {
+        /**
+         * 正常状态 圈
+         */
+        CIRCLE(0),
+        /**
+         * 勾
+         */
+        HOOK(1),
+        /**
+         * 叉
+         */
+        CROSS(2);
+
+        public final int value;
+        Status(int value) {
+            this.value = value;
+        }
+
+        public static Status of(int value) {
+            if (value == 1) {
+                return HOOK;
+            } else if (value == 2) {
+                return CROSS;
+            } else {
+                return CIRCLE;
+            }
+        }
+    }
+
+    // 当前状态
+    private Status mLastStatus = Status.CIRCLE;
+    private Status mCurrentStatus = Status.CIRCLE;
+    private Status mCircleClickedStatus = Status.HOOK;
+    private Status mCircleLongClickedStatus = Status.CROSS;
+    private Status mHookClickedStatus = Status.CIRCLE;
+    private Status mHookLongClickedStatus = Status.CROSS;
+    private Status mCrossClickedStatus = Status.CIRCLE;
+    private Status mCrossLongClickedStatus = Status.HOOK;
+    
+    private boolean mEnableClick = true;
+    private boolean mEnableLongClick = true;
 
     private Paint mCenterCirclePaint;
     private Paint mRipplePaint;
@@ -52,8 +94,6 @@ public class RippleCheckBox extends View implements Checkable {
     private int mCenterCircleRadius; // 默认中间的圆的半径  The radius of the circle in the middle of the default
     private PointF mCenterPointF = new PointF(); // 中心点  center point
     private PointF mWH = new PointF(); // 宽高  width, height
-    private boolean isChecked;
-    private boolean isDelete;
 
     private float mRightAnimatorValue;
     private float mRippleAnimatorValue;
@@ -72,7 +112,6 @@ public class RippleCheckBox extends View implements Checkable {
     private int mDurationDelete;
 
     private OnCheckedChangeListener mListener;
-    private OnDeleteChangeListener mDeleteListener;
 
     // 默认未选择状态的中心圆上的三个点相连，绘制√     The three points on the center circle of the unselected state are connected by default, drawing √
     private int _360_right_degree_start  = 150; // 选中√用三个点可构成；在默认未选择状态的中心圆360°顺时针旋转的150°开始点        Select √ to use three points to form; in the default unselected state of the center circle 360 ° clockwise rotation of the 150 ° start point
@@ -101,7 +140,6 @@ public class RippleCheckBox extends View implements Checkable {
 
 
         TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RippleCheckBox, defStyleAttr, 0);
-        final boolean isChecked           = t.getBoolean(             R.styleable.RippleCheckBox_rcbChecked,         false);
         final int centerCircleRadius      = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbCenterCircleRadius,      RippleCheckBoxUtil.dp2px(context, 10));
         final int centerCircleStrokeWidth = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbCenterCircleStrokeWidth, RippleCheckBoxUtil.dp2px(context, 1));
         final int centerCircleColor       = t.getColor(               R.styleable.RippleCheckBox_rcbCenterCircleColor,       Color.GRAY);
@@ -126,11 +164,17 @@ public class RippleCheckBox extends View implements Checkable {
         final int rightCenterDegree       = t.getInteger(             R.styleable.RippleCheckBox_rcbRightCenterDegree,       _360_right_degree_center);
         final int rightEndDegree          = t.getInteger(             R.styleable.RippleCheckBox_rcbRightEndDegree,          _360_right_degree_end);
         final int rightRightCorner        = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRightCorner,             RippleCheckBoxUtil.dp2px(context, 2));
+
+        final int status                  = t.getInteger(             R.styleable.RippleCheckBox_rcbStatus,                  Status.CIRCLE.value);
+
+        final boolean enableClick         = t.getBoolean(             R.styleable.RippleCheckBox_rcbEnableClick,             true);
+        final boolean enableLongClick     = t.getBoolean(             R.styleable.RippleCheckBox_rcbEnableLongClick,         true);
         t.recycle();
 
         this.enableDeleteMode         = deleteEnable;
         this.mDeleteScale             = deleteScale;
-        this.isChecked                = isChecked;
+        this.mCurrentStatus           = Status.of(status);
+        this.mLastStatus              = this.mCurrentStatus;
         this.mCenterCircleRadius      = centerCircleRadius;
         this.mDurationRight           = rightDuration;
         this.mDurationRipple          = rippleDuration;
@@ -140,6 +184,9 @@ public class RippleCheckBox extends View implements Checkable {
         this._360_right_degree_start  = rightStartDegree;
         this._360_right_degree_center = rightCenterDegree;
         this._360_right_degree_end    = rightEndDegree;
+
+        this.mEnableClick             = enableClick;
+        this.mEnableLongClick         = enableLongClick;
 
         mRightPath         = new Path();
         mRightPathDst      = new Path();
@@ -177,10 +224,8 @@ public class RippleCheckBox extends View implements Checkable {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (RippleCheckBox.this.isDelete) {
-                    setDelete(false, true);
-                } else {
-                    setChecked(!RippleCheckBox.this.isChecked, true);
+                if (isEnableClick()) {
+                    handleNextStatus(false);
                 }
             }
         });
@@ -188,14 +233,35 @@ public class RippleCheckBox extends View implements Checkable {
         setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (RippleCheckBox.this.isChecked) {
-                    setChecked(false, true);
-                } else {
-                    setDelete(!RippleCheckBox.this.isDelete, true);
+                if (isEnableLongClick()) {
+                    handleNextStatus(true);
                 }
                 return true;
             }
         });
+    }
+
+    /**
+     * 处理下次点击
+     * @param isLongClicked 是否是长按
+     */
+    private void handleNextStatus(boolean isLongClicked) {
+        mLastStatus = mCurrentStatus;
+        switch (mCurrentStatus) {
+            case CIRCLE:
+                mCurrentStatus = isLongClicked ? mCircleLongClickedStatus : mCircleClickedStatus;
+                break;
+            case HOOK:
+                mCurrentStatus = isLongClicked ? mHookLongClickedStatus : mHookClickedStatus;
+                break;
+            case CROSS:
+                mCurrentStatus = isLongClicked ? mCrossLongClickedStatus : mCrossClickedStatus;
+                break;
+        }
+        if (mListener != null) {
+            mListener.onCheckedChanged(this, mCurrentStatus);
+        }
+        startAnim();
     }
 
     /**
@@ -265,7 +331,7 @@ public class RippleCheckBox extends View implements Checkable {
     protected void onDraw(Canvas canvas) {
         if (
                 (mRightCheckedAnimator != null && mRightCheckedAnimator.isRunning())
-                || (mRightUnCheckedAnimator != null && mRightUnCheckedAnimator.isRunning())) {
+                || (mRightUnCheckedAnimator != null && mRightUnCheckedAnimator.isRunning())) { // 勾勾动画
             mRightPathDst.reset();
             // 下面两句代码是因为，PathMeasure.getSegment在硬件加速的情况下绘制出来一些问题
             // The following two lines of code are because PathMeasure.getSegment draws some problems in the case of hardware acceleration
@@ -275,17 +341,17 @@ public class RippleCheckBox extends View implements Checkable {
             canvas.drawPath(mRightPathDst, mRightPaint);
         } else if (
                 (mRippleCheckedAnimator != null && mRippleCheckedAnimator.isRunning())
-                || (mRippleUnCheckedAnimator != null && mRippleUnCheckedAnimator.isRunning())) {
+                || (mRippleUnCheckedAnimator != null && mRippleUnCheckedAnimator.isRunning())) { // 波纹动画
             float value = (1 - mRippleAnimatorValue / (mWH.x / 2));
             mRipplePaint.setAlpha((int) (255 * value));
             canvas.drawCircle(mCenterPointF.x, mCenterPointF.y, mRippleAnimatorValue, mRipplePaint);
-            if (isChecked) {
+            if (mLastStatus == Status.CIRCLE) { // 上一个状态是圈圈时，还是要着圈圈
                 canvas.drawPath(mCenterCirclePath, mCenterCirclePaint);
             }
         } else if (
                 (mDeleteCheckedAnimator != null && mDeleteCheckedAnimator.isRunning())
                 || (mDeleteUnCheckedAnimator != null && mDeleteUnCheckedAnimator.isRunning())
-        ) {
+        ) { // 叉叉动画
             mDeletePathDst.reset();
 //            mDeletePathDst.moveTo(-2000, -2000);
 //            mDeletePathDst.rLineTo(0, 0);
@@ -297,9 +363,9 @@ public class RippleCheckBox extends View implements Checkable {
                 mDeletePathDst.addPath(mDeleteOnePath);
             }
             canvas.drawPath(mDeletePathDst, mDeletePaint);
-        } else if (isDelete) {
+        } else if (mCurrentStatus == Status.CROSS) { // 叉叉
             canvas.drawPath(mDeleteTotalPath, mDeletePaint);
-        } else if (isChecked) {
+        } else if (mCurrentStatus == Status.HOOK) { // 勾勾
             canvas.drawPath(mRightPath, mRightPaint);
         } else {
             canvas.drawPath(mCenterCirclePath, mCenterCirclePaint);
@@ -336,7 +402,7 @@ public class RippleCheckBox extends View implements Checkable {
         mRightCheckedAnimator.setDuration(mDurationRight);
     }
 
-    private void handleRippleCheckedAnimator(final boolean isDelete) {
+    private void handleRippleCheckedAnimator() {
         if (mRippleCheckedAnimator == null) {
             mRippleCheckedAnimator = ValueAnimator.ofFloat(mCenterCircleRadius, mWH.x / 2 - mRippleMargin);
             mRippleCheckedAnimator.setInterpolator(new AccelerateInterpolator());
@@ -348,22 +414,10 @@ public class RippleCheckBox extends View implements Checkable {
                 }
             });
         }
-        mRippleCheckedAnimator.removeAllListeners();
-        mRippleCheckedAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                if (isDelete) {
-                    mDeleteCheckedAnimator.start();
-                } else {
-                    mRightCheckedAnimator.start();
-                }
-            }
-        });
         mRippleCheckedAnimator.setDuration(mDurationRipple);
     }
 
-    private void startAnim(boolean isDelete) {
+    private void startAnim() {
         if (mRippleCheckedAnimator != null && mRippleCheckedAnimator.isRunning()) {
             mRippleCheckedAnimator.cancel();
         }
@@ -376,14 +430,77 @@ public class RippleCheckBox extends View implements Checkable {
             mDeleteCheckedAnimator.cancel();
         }
 
+        if (mRippleUnCheckedAnimator != null && mRippleUnCheckedAnimator.isRunning()) {
+            mRippleUnCheckedAnimator.cancel();
+        }
+
+        if (mRightUnCheckedAnimator != null && mRightUnCheckedAnimator.isRunning()) {
+            mRightUnCheckedAnimator.cancel();
+        }
+
+        if (mDeleteUnCheckedAnimator != null && mDeleteUnCheckedAnimator.isRunning()) {
+            mDeleteUnCheckedAnimator.cancel();
+        }
+
         handleDeleteCheckedAnimator();
 
         handleRightCheckedAnimator();
 
-        handleRippleCheckedAnimator(isDelete);
+        handleRippleCheckedAnimator();
 
-        mRippleCheckedAnimator.start();
+        handleRippleUnCheckedAnimator();
+
+        handleDeleteUnCheckedAnimator();
+
+        handleRightUnCheckedAnimator();
+
+        mRippleCheckedAnimator.removeAllListeners();
+        mDeleteUnCheckedAnimator.removeAllListeners();
+        mRightUnCheckedAnimator.removeAllListeners();
+
+        if (mLastStatus == Status.CIRCLE) {
+            mRippleCheckedAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if (mCurrentStatus == Status.CROSS) {
+                        mDeleteCheckedAnimator.start();
+                    } else {
+                        mRightCheckedAnimator.start();
+                    }
+                }
+            });
+            mRippleCheckedAnimator.start();
+        } else if (mLastStatus == Status.HOOK) {
+            mRightUnCheckedAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if (mCurrentStatus == Status.CIRCLE) {
+                        mRippleUnCheckedAnimator.start();
+                    } else {
+                        mDeleteCheckedAnimator.start();
+                    }
+                }
+            });
+            mRightUnCheckedAnimator.start();
+        } else if (mLastStatus == Status.CROSS) {
+            mDeleteUnCheckedAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if (mCurrentStatus == Status.CIRCLE) {
+                        mRippleUnCheckedAnimator.start();
+                    } else {
+                        mRightCheckedAnimator.start();
+                    }
+                }
+            });
+
+            mDeleteUnCheckedAnimator.start();
+        }
     }
+
 
     private void handleRippleUnCheckedAnimator() {
         if (mRippleUnCheckedAnimator == null) {
@@ -411,13 +528,6 @@ public class RippleCheckBox extends View implements Checkable {
                     postInvalidate();
                 }
             });
-            mRightUnCheckedAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    mRippleUnCheckedAnimator.start();
-                }
-            });
         }
         mRightUnCheckedAnimator.setDuration(mDurationRight);
     }
@@ -433,108 +543,25 @@ public class RippleCheckBox extends View implements Checkable {
                     postInvalidate();
                 }
             });
-            mDeleteUnCheckedAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    mRippleUnCheckedAnimator.start();
-                }
-            });
         }
         mDeleteUnCheckedAnimator.setDuration(mDurationDelete);
     }
 
-    private void startUnAnim(boolean isDelete) {
-        if (mRippleUnCheckedAnimator != null && mRippleUnCheckedAnimator.isRunning()) {
-            mRippleUnCheckedAnimator.cancel();
-        }
-
-        if (mRightUnCheckedAnimator != null && mRightUnCheckedAnimator.isRunning()) {
-            mRightUnCheckedAnimator.cancel();
-        }
-
-        if (mDeleteUnCheckedAnimator != null && mDeleteUnCheckedAnimator.isRunning()) {
-            mDeleteUnCheckedAnimator.cancel();
-        }
-
-        handleRippleUnCheckedAnimator();
-
-        if (isDelete) {
-            handleDeleteUnCheckedAnimator();
-            mDeleteUnCheckedAnimator.start();
-        } else {
-            handleRightUnCheckedAnimator();
-            mRightUnCheckedAnimator.start();
-        }
+    public void setCurrentStatus(Status status) {
+        setCurrentStatus(status, false);
     }
 
-    /**
-     * change RippleCheckBox check status
-     * @param checked RippleCheckBox的选中状态  RippleCheckBox's check status
-     * @param animal 是否开启动画效果  Whether to turn on animation effects
-     */
-    public void setChecked(boolean checked, boolean animal) {
-        if (animal) {
-            isChecked = checked;
-            if (isChecked) {
-                startAnim(false);
-            } else {
-                startUnAnim(false);
-            }
-
-            if (mListener != null) {
-                mListener.onCheckedChanged(this, isChecked);
-            }
-        } else {
-            setChecked(checked);
+    public void setCurrentStatus(Status status, boolean animal) {
+        mLastStatus = mCurrentStatus;
+        mCurrentStatus = status;
+        if (mListener != null) {
+            mListener.onCheckedChanged(this, mCurrentStatus);
         }
-    }
-
-    /**
-     * change RippleCheckBox check status
-     * @param isDelete RippleCheckBox的删除状态  RippleCheckBox's delete status
-     * @param animal 是否开启动画效果  Whether to turn on animation effects
-     */
-    public void setDelete(boolean isDelete, boolean animal) {
-        if (animal) {
-            this.isDelete = isDelete;
-            if (this.isDelete) {
-                startAnim(true);
-            } else {
-                startUnAnim(true);
-            }
-
-            if (mDeleteListener != null) {
-                mDeleteListener.onDeleteChanged(this, isDelete);
-            }
-        } else {
-            setDelete(isDelete);
-        }
-    }
-
-    @Override
-    public void setChecked(boolean checked) {
-        isChecked = checked;
         invalidate();
     }
 
-    @Override
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    @Override
-    public void toggle() {
-        setChecked(!isChecked);
-    }
-
-    public void setDelete(boolean isDelete) {
-        this.isDelete = isDelete;
-        invalidate();
-    }
-
-    public boolean isDelete() {
-        return isDelete;
+    public Status getCurrentStatus() {
+        return mCurrentStatus;
     }
 
     public int getCenterCircleRadius() {
@@ -693,11 +720,27 @@ public class RippleCheckBox extends View implements Checkable {
         mRippleCheckedAnimator = null;
     }
 
+    public boolean isEnableClick() {
+        return mEnableClick;
+    }
+
+    public void setEnableClick(boolean mEnableClick) {
+        this.mEnableClick = mEnableClick;
+    }
+
+    public boolean isEnableLongClick() {
+        return mEnableLongClick;
+    }
+
+    public void setEnableLongClick(boolean mEnableLongClick) {
+        this.mEnableLongClick = mEnableLongClick;
+    }
+
     @Override
     protected Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
         bundle.putParcelable(KEY_INSTANCE_STATE, super.onSaveInstanceState());
-        bundle.putBoolean(KEY_INSTANCE_STATE, isChecked());
+        bundle.putInt(KEY_INSTANCE_STATE, mCurrentStatus.value);
         return bundle;
     }
 
@@ -705,8 +748,8 @@ public class RippleCheckBox extends View implements Checkable {
     protected void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
-            boolean isChecked = bundle.getBoolean(KEY_INSTANCE_STATE);
-            setChecked(isChecked);
+            int status = bundle.getInt(KEY_INSTANCE_STATE, Status.CIRCLE.value);
+            setCurrentStatus(Status.of(status), false);
             super.onRestoreInstanceState(bundle.getParcelable(KEY_INSTANCE_STATE));
             return;
         }
@@ -717,15 +760,7 @@ public class RippleCheckBox extends View implements Checkable {
         this.mListener = l;
     }
 
-    public void setOnDeleteChangeListener(OnDeleteChangeListener l) {
-        this.mDeleteListener = l;
-    }
-
     public interface OnCheckedChangeListener {
-        void onCheckedChanged(RippleCheckBox checkBox, boolean isChecked);
-    }
-
-    public interface OnDeleteChangeListener {
-        void onDeleteChanged(RippleCheckBox checkBox, boolean isDelete);
+        void onCheckedChanged(RippleCheckBox checkBox, Status status);
     }
 }

@@ -146,8 +146,9 @@ public class MainActivity extends AppCompatActivity {
     private void addListener(RippleCheckBox checkBox, final TextView tv, final View l) {
         checkBox.setOnCheckedChangeListener(new RippleCheckBox.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RippleCheckBox checkBox, boolean isChecked) {
-                if (isChecked) {
+            public void onCheckedChanged(RippleCheckBox checkBox, RippleCheckBox.Status status) {
+                l.setBackgroundColor(status == RippleCheckBox.Status.CROSS ? 0xffff4444: 0xFFd7d7d7);
+                if (status != RippleCheckBox.Status.CIRCLE) {
                     l.animate()
                             .setDuration(400)
                             .translationY(- (RippleCheckBoxUtil.dp2px(MainActivity.this, 12) + tv.getHeight() / 2))
@@ -168,6 +169,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }

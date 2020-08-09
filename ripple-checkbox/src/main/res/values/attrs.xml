@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RippleCheckBox">
-        <attr name="rcbChecked"                 format="boolean"/>
+        <attr name="rcbStatus" format="enum">
+            <enum name="CIRCLE" value="0" />
+            <enum name="HOOK" value="1" />
+            <enum name="CROSS" value="1" />
+        </attr>
+
+        <attr name="rcbEnableClick"             format="boolean" />
+        <attr name="rcbEnableLongClick"         format="boolean" />
 
         <attr name="rcbCenterCircleRadius"      format="dimension" />
         <attr name="rcbCenterCircleStrokeWidth" format="dimension" />

@@ -58,11 +58,13 @@
             android:layout_height="100dp"
             app:rcbCenterCircleColor="@color/colorPrimary"
             app:rcbCenterCircleRadius="12dp"
-            app:rcbChecked="true"
+            app:rcbStatus="HOOK"
             app:rcbRightColor="@color/colorPrimary"
             app:rcbRightStrokeWidth="2dp"
             app:rcbRippleColor="@color/colorPrimaryDark"
-            app:rcbRippleStrokeWidth="3dp" />
+            app:rcbRippleStrokeWidth="3dp"
+            app:rcbDeleteScale="0.8"
+            app:rcbDeleteColor="@android:color/holo_red_light"/>
 
 
         <TextView
