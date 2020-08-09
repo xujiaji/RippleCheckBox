@@ -40,12 +40,12 @@ ext {
     libraryName = 'ripple-checkbox'
     artifact = 'ripple-checkbox'
 
-    libraryDescription = 'Simple, comfortable, ripple animation, check animation, highly controllable ripple CheckBox'
+    libraryDescription = 'Simple, comfortable, ripple animation, check animation, cross animation highly controllable ripple CheckBox'
 
     siteUrl = 'https://github.com/xujiaji/RippleCheckBox'
     gitUrl = 'https://github.com/xujiaji/RippleCheckBox.git'
 
-    libraryVersion = '0.0.2'
+    libraryVersion = '0.0.3'
 
     developerId = 'xujiaji'
     developerName = 'xujiaji'

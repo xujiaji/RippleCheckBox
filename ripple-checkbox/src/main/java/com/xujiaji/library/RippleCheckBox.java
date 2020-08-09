@@ -557,7 +557,11 @@ public class RippleCheckBox extends View  {
         if (mListener != null) {
             mListener.onCheckedChanged(this, mCurrentStatus);
         }
-        invalidate();
+        if (animal) {
+            startAnim();
+        } else {
+            invalidate();
+        }
     }
 
     public Status getCurrentStatus() {

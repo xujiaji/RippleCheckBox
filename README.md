@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/badge/version-0.0.2-green.svg)](https://bintray.com/xujiaji/maven/ripple-checkbox) 
+[![Version](https://img.shields.io/badge/version-0.0.3-green.svg)](https://bintray.com/xujiaji/maven/ripple-checkbox)
 
 # RippleCheckBox
 简洁，舒服，波纹动画，勾选动画，高度可控的波纹CheckBox
@@ -17,7 +17,7 @@
 
 ## Dependencies
 ```
-implementation 'com.github.xujiaji:ripple-checkbox:0.0.2'
+implementation 'com.github.xujiaji:ripple-checkbox:0.0.3'
 ```
 
 ## Use
@@ -27,10 +27,8 @@ implementation 'com.github.xujiaji:ripple-checkbox:0.0.2'
 
 |作用|方法|xml属性|
 |-|-|-|
-|选中状态      |`setChecked(boolean)`|`rcbChecked                `|
-|选中状态，第二个<br>参数是否开启动画效果|`setChecked(boolean,boolean)`||
-|是否被选中|`isChecked()`||
-|切换选中和未选中|`toggle()`||
+|选中状态      |`setCurrentStatus(Status)`|`rcbStatus                `|
+|选中状态，第二个<br>参数是否开启动画效果|`setCurrentStatus(Status,boolean)`||
 |中心圆半径    |`setCenterCircleRadius(int)` *(px)*|`rcbCenterCircleRadius     `|
 |中心圆线条粗细 |`setCenterCircleStrokeWidth(float)`|`rcbCenterCircleStrokeWidth`|
 |中心圆颜色    |`setCenterCircleColor(int)` *(0x)*|`rcbCenterCircleColor      `|
@@ -55,7 +53,7 @@ implementation 'com.github.xujiaji:ripple-checkbox:0.0.2'
     android:layout_height="100dp"
     app:rcbCenterCircleColor="@color/colorPrimary"
     app:rcbCenterCircleRadius="12dp"
-    app:rcbChecked="true"
+    app:rcbStatus="HOOK"
     app:rcbRightColor="@color/colorPrimary"
     app:rcbRightStrokeWidth="2dp"
     app:rcbRippleColor="@color/colorPrimaryDark"
