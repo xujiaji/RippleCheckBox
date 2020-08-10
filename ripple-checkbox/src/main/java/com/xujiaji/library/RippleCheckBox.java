@@ -166,6 +166,12 @@ public class RippleCheckBox extends View  {
         final int rightRightCorner        = t.getDimensionPixelOffset(R.styleable.RippleCheckBox_rcbRightCorner,             RippleCheckBoxUtil.dp2px(context, 2));
 
         final int status                  = t.getInteger(             R.styleable.RippleCheckBox_rcbStatus,                  Status.CIRCLE.value);
+        final int circleClickedStatus     = t.getInteger(             R.styleable.RippleCheckBox_rcbCircleClickedStatus,     Status.HOOK.value);
+        final int circleLongClickedStatus = t.getInteger(             R.styleable.RippleCheckBox_rcbCircleLongClickedStatus, Status.CROSS.value);
+        final int hookClickedStatus       = t.getInteger(             R.styleable.RippleCheckBox_rcbHookClickedStatus,       Status.CIRCLE.value);
+        final int hookLongClickedStatus   = t.getInteger(             R.styleable.RippleCheckBox_rcbHookLongClickedStatus,   Status.CROSS.value);
+        final int crossClickedStatus      = t.getInteger(             R.styleable.RippleCheckBox_rcbCrossClickedStatus,      Status.CIRCLE.value);
+        final int crossLongClickedStatus  = t.getInteger(             R.styleable.RippleCheckBox_rcbCrossLongClickedStatus,  Status.HOOK.value);
 
         final boolean enableClick         = t.getBoolean(             R.styleable.RippleCheckBox_rcbEnableClick,             true);
         final boolean enableLongClick     = t.getBoolean(             R.styleable.RippleCheckBox_rcbEnableLongClick,         true);
@@ -173,8 +179,16 @@ public class RippleCheckBox extends View  {
 
         this.enableDeleteMode         = deleteEnable;
         this.mDeleteScale             = deleteScale;
+
         this.mCurrentStatus           = Status.of(status);
         this.mLastStatus              = this.mCurrentStatus;
+        this.mCircleClickedStatus     = Status.of(circleClickedStatus);
+        this.mCircleLongClickedStatus = Status.of(circleLongClickedStatus);
+        this.mHookClickedStatus       = Status.of(hookClickedStatus);
+        this.mHookLongClickedStatus   = Status.of(hookLongClickedStatus);
+        this.mCrossClickedStatus      = Status.of(crossClickedStatus);
+        this.mCrossLongClickedStatus  = Status.of(crossLongClickedStatus);
+
         this.mCenterCircleRadius      = centerCircleRadius;
         this.mDurationRight           = rightDuration;
         this.mDurationRipple          = rippleDuration;
@@ -603,6 +617,35 @@ public class RippleCheckBox extends View  {
         mRightPaint.setColor(color);
     }
 
+    public float getDeleteScale() {
+        return mDeleteScale;
+    }
+
+    public void setDeleteScale(float deleteScale) {
+        this.mDeleteScale = deleteScale;
+    }
+
+    public int getDeleteCorner() {
+        return mDeleteCorner;
+    }
+
+    public void setDeleteCorner(int deleteCorner) {
+        this.mDeleteCorner = deleteCorner;
+    }
+
+    public float getDeleteStrokeWidth() {
+        return mDeletePaint.getStrokeWidth();
+    }
+
+    public void setDeleteStrokeWidth(float value) {
+        if (value < 0 || value > mCenterCircleRadius) return;
+        mDeletePaint.setStrokeWidth(value);
+    }
+
+    public void setDeleteColor(int color) {
+        mDeletePaint.setColor(color);
+    }
+
     public float getRippleStrokeWidth() {
         return mRipplePaint.getStrokeWidth();
     }
@@ -703,10 +746,6 @@ public class RippleCheckBox extends View  {
         return mRightCorner;
     }
 
-    public int getDeleteCorner() {
-        return mDeleteCorner;
-    }
-
     public void setRightCorner(int corner) {
         mRightPaint.setPathEffect(new CornerPathEffect(corner));
     }
@@ -728,16 +767,68 @@ public class RippleCheckBox extends View  {
         return mEnableClick;
     }
 
-    public void setEnableClick(boolean mEnableClick) {
-        this.mEnableClick = mEnableClick;
+    public void setEnableClick(boolean enableClick) {
+        this.mEnableClick = enableClick;
     }
 
     public boolean isEnableLongClick() {
         return mEnableLongClick;
     }
 
-    public void setEnableLongClick(boolean mEnableLongClick) {
-        this.mEnableLongClick = mEnableLongClick;
+    public void setEnableLongClick(boolean enableLongClick) {
+        this.mEnableLongClick = enableLongClick;
+    }
+
+    public Status getLastStatus() {
+        return mLastStatus;
+    }
+
+    public Status getCircleClickedStatus() {
+        return mCircleClickedStatus;
+    }
+
+    public void setCircleClickedStatus(Status circleClickedStatus) {
+        this.mCircleClickedStatus = circleClickedStatus;
+    }
+
+    public Status getCircleLongClickedStatus() {
+        return mCircleLongClickedStatus;
+    }
+
+    public void setCircleLongClickedStatus(Status circleLongClickedStatus) {
+        this.mCircleLongClickedStatus = circleLongClickedStatus;
+    }
+
+    public Status getHookClickedStatus() {
+        return mHookClickedStatus;
+    }
+
+    public void setHookClickedStatus(Status hookClickedStatus) {
+        this.mHookClickedStatus = hookClickedStatus;
+    }
+
+    public Status getHookLongClickedStatus() {
+        return mHookLongClickedStatus;
+    }
+
+    public void setHookLongClickedStatus(Status hookLongClickedStatus) {
+        this.mHookLongClickedStatus = hookLongClickedStatus;
+    }
+
+    public Status getCrossClickedStatus() {
+        return mCrossClickedStatus;
+    }
+
+    public void setCrossClickedStatus(Status crossClickedStatus) {
+        this.mCrossClickedStatus = crossClickedStatus;
+    }
+
+    public Status getCrossLongClickedStatus() {
+        return mCrossLongClickedStatus;
+    }
+
+    public void setCrossLongClickedStatus(Status crossLongClickedStatus) {
+        this.mCrossLongClickedStatus = crossLongClickedStatus;
     }
 
     @Override

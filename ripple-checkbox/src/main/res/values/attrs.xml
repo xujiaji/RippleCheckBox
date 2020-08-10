@@ -4,7 +4,32 @@
         <attr name="rcbStatus" format="enum">
             <enum name="CIRCLE" value="0" />
             <enum name="HOOK" value="1" />
-            <enum name="CROSS" value="1" />
+            <enum name="CROSS" value="2" />
+        </attr>
+
+        <attr name="rcbCircleClickedStatus"     format="enum">
+            <enum name="HOOK" value="1" />
+            <enum name="CROSS" value="2" />
+        </attr>
+        <attr name="rcbCircleLongClickedStatus" format="enum">
+            <enum name="HOOK" value="1" />
+            <enum name="CROSS" value="2" />
+        </attr>
+        <attr name="rcbHookClickedStatus"       format="enum">
+            <enum name="CIRCLE" value="0" />
+            <enum name="CROSS" value="2" />
+        </attr>
+        <attr name="rcbHookLongClickedStatus"   format="enum">
+            <enum name="CIRCLE" value="0" />
+            <enum name="CROSS" value="2" />
+        </attr>
+        <attr name="rcbCrossClickedStatus"      format="enum">
+            <enum name="CIRCLE" value="0" />
+            <enum name="HOOK" value="1" />
+        </attr>
+        <attr name="rcbCrossLongClickedStatus"  format="enum">
+            <enum name="CIRCLE" value="0" />
+            <enum name="HOOK" value="1" />
         </attr>
 
         <attr name="rcbEnableClick"             format="boolean" />
