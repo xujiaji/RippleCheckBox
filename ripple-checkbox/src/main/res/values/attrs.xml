@@ -49,7 +49,6 @@
         <attr name="rcbDeleteDuration"           format="integer"   />
         <attr name="rcbDeleteCorner"             format="dimension" />
         <attr name="rcbDeleteScale"              format="float" />
-        <attr name="rcbDeleteEnable"             format="boolean" />
 
         <attr name="rcbRightStartDegree"        format="integer"   />
         <attr name="rcbRightCenterDegree"       format="integer"   />
