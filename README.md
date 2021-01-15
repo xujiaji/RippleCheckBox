@@ -11,7 +11,7 @@
 
 ![](https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/RippleCheckBox/RippleCheckBox.gif)
 
-> [下载案例Apk](https://github.com/xujiaji/RippleCheckBox/releases/tag/v0.0.5)
+> [下载案例Apk](https://github.com/xujiaji/RippleCheckBox/releases/download/v0.0.5/sample-debug.apk)
 
 > 使用该控件的项目：[玩清单](https://www.coolapk.com/apk/211388)
 
