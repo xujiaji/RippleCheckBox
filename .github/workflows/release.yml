@@ -41,4 +41,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TOKEN_RIPPLE_CHECK_BOX }}
       run: |
         tag_name="${GITHUB_REF##*/}"
-        hub release create -a "sample/build/outputs/apk/debug/app-debug.apk" -a "ripple-checkbox/build/outputs/aar/ripple-checkbox-release.aar" -m "$tag_name" "$tag_name"
+        hub release create -a "sample/build/outputs/apk/debug/sample-debug.apk" -a "ripple-checkbox/build/outputs/aar/ripple-checkbox-release.aar" -m "$tag_name" "$tag_name"
