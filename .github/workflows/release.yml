@@ -21,11 +21,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-#    - name: Add Bintray Secret
-#      run: |
-#        echo "bintray.apikey=${{ secrets.BINTRAY_APIKEY }}" >> local.properties
-#        echo "bintray.user=${{ secrets.BINTRAY_USER }}" >> local.properties
-#        echo "bintray.gpg.password=${{ secrets.BINTRAY_GPG_PASSWORD }}" >> local.properties
+    - name: Add Bintray Secret
+      run: |
+        echo "bintray.apikey=${{ secrets.BINTRAY_APIKEY }}" >> local.properties
+        echo "bintray.user=${{ secrets.BINTRAY_USER }}" >> local.properties
+        echo "bintray.gpg.password=${{ secrets.BINTRAY_GPG_PASSWORD }}" >> local.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
@@ -38,7 +38,7 @@ jobs:
 #        ./gradlew bintrayUpload
     - name: Publish to Release
       env: 
-        GITHUB_TOKEN: ${{ secrets.GIT_RElEASE_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GIT_RELEASE_TOKEN_RIPPLE_CHECK_BOX }}
       run: |
         tag_name="${GITHUB_REF##*/}"
         hub release create -a "sample/build/outputs/apk/debug/app-debug.apk" -a "ripple-checkbox/build/outputs/aar/ripple-checkbox-release.aar" -m "$tag_name" "$tag_name"
